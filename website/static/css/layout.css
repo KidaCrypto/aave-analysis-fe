@@ -1,0 +1,117 @@
+body {
+    margin: auto;
+    max-width: 1260px;
+    padding-top: 20px;
+}
+
+@media screen and (max-width: 900px) {
+  body {
+    padding: 20px;
+  }
+}
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -800px 0
+  }
+  100% {
+    background-position: 800px 0
+  }
+}
+
+@keyframes shimmer {
+    0% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.3;
+    }
+}
+
+ul:not(.navbar-nav) {
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+div:has(.loader) {    
+    height: 430px;
+    margin-bottom: 20px;
+}
+
+/* loader */
+.loader {
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+  background-color: rgba(0,0,0,0.3);
+  height: 100%;
+  width: 100%;
+  position: relative;
+  border-radius: 20px;
+}
+
+.footer {
+  position: relative;
+  background-color: black;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 50px;
+  padding-left: 5%;
+  padding-right: 5%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  color: white;
+  border-radius: 20px;
+}
+@media screen and (max-width: 900px) {
+  .footer {
+    position: fixed;
+    bottom: 0;
+    font-size: 15px;
+    border-radius: 0;
+    margin-bottom: 0;
+  }
+  .footer svg {
+    height: 20px;
+  }
+}
+.footer a {
+  color: white !important;
+}
+.footer .footer-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+@media screen and (max-width: 900px) {
+  .footer .footer-container {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+}
+.footer .footer-container > div:first-child {
+  padding-left: 7px;
+}
+@media screen and (max-width: 900px) {
+  .footer .footer-container > div:first-child {
+    padding-left: 0;
+    margin-bottom: 5px;
+  }
+}
+.footer .footer-container div {
+  display: flex;
+  flex-direction: row;
+}
+.footer .footer-container div > div:first-child {
+  margin-right: 10px;
+}

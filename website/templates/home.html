@@ -1,0 +1,64 @@
+{% extends("layout.html") %}
+{% block content %}
+<h2>Notes</h2>
+<ul style="list-style: decimal;">
+  <li>This page only analyzes the Aave V3 ETH Lending Activities on Arbitrum</li>
+  <li>Since there are no subgraphs for V3, a new code is deployed to a hosted service to obtain rate data</li>
+  <li>Since there are no readily available ABI for Aave V3 without rebuilding the smart contract, the events that I am interested in are coded manually</li>
+  <li>The graph code can be found <a href="https://github.com/KidaCrypto/aave-analysis" target="_blank" rel="noopener noreferrer">here</a></li>
+  <li>Frontend code can be found <a href="https://github.com/KidaCrypto/aave-analysis-fe" target="_blank" rel="noopener noreferrer">here</a></li>
+  <li>Calculations are based on https://docs.aave.com/developers/v/2.0/guides/apy-and-apr</li>
+</ul>
+<h2>Findings</h2>
+<ul style="list-style: decimal;">
+  <li>ETH's Shanghai update which allowed unstaking of ETH from the Beacon chain had significantly impacted the lending market, tanking both supply and borrow rates</li>
+  <li>ETH deposit volume maintained even though Supply APY took a hit, suggesting that suppliers do not deposit based on APY</li>
+  <li>Supply APY has recently been on the rise, suggesting that more ETHs are being borrowed</li>
+</ul>
+<div>
+  <div id="all_graphs_borrow_lines">
+    <div class="loader"></div>
+  </div>
+  <div id="all_graphs_rate_lines">
+    <div class="loader"></div>
+  </div>
+  <p>The graphs above show that APYs had been impacted by the Shanghai upgrade, marked by the sharp drop in % on 31 March 2023</p>
+  <div id="all_graphs_deposits">
+    <div class="loader"></div>
+  </div>
+  <p>The graph above shows that deposit patterns do not seem to be impacted by the decrease in APY.</p>
+</div>
+<script>
+
+$(document).ready(async function(){
+        let urls = [
+            '/api/all_graphs', 
+        ];
+
+        let graphs = await Promise.all(urls.map(url => getGraphFromUrl(url)));
+        let index = 0;
+
+        for(const graph of graphs) {
+            for(const [key, graphHtml] of Object.entries(graph)) {
+                let url = urls[index].replace('/api/', '');
+
+                // no need to process if doesn't exist
+                if($(`#${url}_${key}`).length == 0) continue;
+
+                $(`#${url}_${key}`).html(`<div>${graphHtml}</div>`);
+
+                // for performance
+                await sleep(20);
+            }
+            index++;
+        }
+
+        /* graphs.forEach((graph, index) => {
+            for(const [key, graphHtml] of Object.entries(graph)) {
+                let url = urls[index].replace('/api/', '');
+                $(`.graph-container`).append(`<span>${url}_${key}</span><div>${graphHtml}</div>`);
+            }
+        }); */
+    });
+</script>
+{% endblock %}
